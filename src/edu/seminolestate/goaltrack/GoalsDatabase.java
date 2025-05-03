@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class GoalsDatabase {
     // Database connection details
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/goal_tracker";
+    private static final String URL = "jdbc:mysql:***********/goal_tracker";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
