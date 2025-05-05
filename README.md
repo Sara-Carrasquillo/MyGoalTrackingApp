@@ -2,29 +2,6 @@ User Documentation
 Sara Carrasquillo
 12/5/2024
 
-
-Table of Contents
-Page 1 … Table of Contents
-Page 2 … Increment Addition/Revision Overview
-Page 3 … Main Menu
-Page 4 … Goal Page
-Page 5 … Add Goal Page
-Page 6 … Update Goal Page
-Page 7 … Delete Goal Page Pop-Up
-Page 8 … Category Page
-Page 9 … Add Category Page
-Page 10 … Update Category Page
-Page 11 … Delete Category Page Pop-Up
-Page 12… Steps Page
-Page 13 … Add Steps Page
-Page 14 … Update Steps Page
-Page 15 … Delete Steps Page Pop-Up
-Page 16 … Progress Page 
-Page 17 … Add Progress Page
-Page 18 … Update Progress Page
-Page 19 … Delete Progress Page Pop-Up
-Page 20 … Next Increment Action Plan/Summary
-
 Main Menu
 ![image](https://github.com/user-attachments/assets/24c600c8-4a77-4115-9025-ec24ed5dcc59)
  
