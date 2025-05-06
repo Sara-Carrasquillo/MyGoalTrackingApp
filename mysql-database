@@ -1,0 +1,194 @@
+--
+-- Database: `goal_tracker`
+--
+CREATE DATABASE IF NOT EXISTS `goal_tracker` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `goal_tracker`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
+  `Category_ID` int(11) NOT NULL,
+  `Category_Name` varchar(100) NOT NULL,
+  `Category_Description` varchar(100) NOT NULL,
+  `Category_Color` varchar(100) NOT NULL,
+  `Category_Value` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `categories`:
+--
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`Category_ID`, `Category_Name`, `Category_Description`, `Category_Color`, `Category_Value`) VALUES
+(1, 'Health', 'Working out and stuff', 'Pink', 9),
+(2, 'Career', '', '', 0),
+(3, 'Education', '', '', 0),
+(4, 'Fitness', '', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `goals`
+--
+
+DROP TABLE IF EXISTS `goals`;
+CREATE TABLE `goals` (
+  `Goal_ID` int(11) NOT NULL,
+  `Category_ID` int(11) NOT NULL DEFAULT 1,
+  `Goal_Name` varchar(100) NOT NULL,
+  `Target_Date` date NOT NULL,
+  `Is_Complete` tinyint(1) NOT NULL DEFAULT 0,
+  `Long_Term` tinyint(1) NOT NULL DEFAULT 0,
+  `Date_Created` date DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `goals`:
+--   `Category_ID`
+--       `categories` -> `Category_ID`
+--
+
+--
+-- Dumping data for table `goals`
+--
+
+INSERT INTO `goals` (`Goal_ID`, `Category_ID`, `Goal_Name`, `Target_Date`, `Is_Complete`, `Long_Term`, `Date_Created`) VALUES
+(4, 1, 'Test Goal', '2025-02-23', 0, 1, '2024-10-08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `progress`
+--
+
+DROP TABLE IF EXISTS `progress`;
+CREATE TABLE `progress` (
+  `Goal_ID` int(11) NOT NULL,
+  `Step_ID` int(11) NOT NULL,
+  `Progress_Date` date NOT NULL,
+  `Is_Complete` tinyint(1) NOT NULL,
+  `Notes` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `progress`:
+--   `Goal_ID`
+--       `goals` -> `Goal_ID`
+--   `Step_ID`
+--       `steps` -> `Step_ID`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `steps`
+--
+
+DROP TABLE IF EXISTS `steps`;
+CREATE TABLE `steps` (
+  `Step_ID` int(11) NOT NULL,
+  `Goal_ID` int(11) NOT NULL,
+  `Step_Number` int(99) NOT NULL,
+  `Step_Description` varchar(225) NOT NULL,
+  `Is_Complete` tinyint(1) DEFAULT 0,
+  `Target_Date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `steps`:
+--   `Goal_ID`
+--       `goals` -> `Goal_ID`
+--
+
+--
+-- Dumping data for table `steps`
+--
+
+INSERT INTO `steps` (`Step_ID`, `Goal_ID`, `Step_Number`, `Step_Description`, `Is_Complete`, `Target_Date`) VALUES
+(1, 4, 1, 'Test Step', 0, '2025-02-23'),
+(2, 4, 2, 'Second Test', 0, '2025-02-24');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`Category_ID`);
+
+--
+-- Indexes for table `goals`
+--
+ALTER TABLE `goals`
+  ADD PRIMARY KEY (`Goal_ID`),
+  ADD KEY `FK_Category_Goal` (`Category_ID`);
+
+--
+-- Indexes for table `progress`
+--
+ALTER TABLE `progress`
+  ADD KEY `fk_goal` (`Goal_ID`),
+  ADD KEY `fk_step` (`Step_ID`);
+
+--
+-- Indexes for table `steps`
+--
+ALTER TABLE `steps`
+  ADD PRIMARY KEY (`Step_ID`),
+  ADD KEY `Goal_ID_FK` (`Goal_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `Category_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `goals`
+--
+ALTER TABLE `goals`
+  MODIFY `Goal_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `steps`
+--
+ALTER TABLE `steps`
+  MODIFY `Step_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `goals`
+--
+ALTER TABLE `goals`
+  ADD CONSTRAINT `FK_Category_Goal` FOREIGN KEY (`Category_ID`) REFERENCES `categories` (`Category_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `progress`
+--
+ALTER TABLE `progress`
+  ADD CONSTRAINT `fk_goal` FOREIGN KEY (`Goal_ID`) REFERENCES `goals` (`Goal_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_step` FOREIGN KEY (`Step_ID`) REFERENCES `steps` (`Step_ID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `steps`
+--
+ALTER TABLE `steps`
+  ADD CONSTRAINT `Goal_ID_FK` FOREIGN KEY (`Goal_ID`) REFERENCES `goals` (`Goal_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
